@@ -1,7 +1,12 @@
 import "package:flutter/material.dart";
+import 'package:local_market/components/horizontal_slide.dart';
+import 'package:local_market/components/products.dart';
 import "package:local_market/controller/user_controller.dart";
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:local_market/utils/utils.dart';
 import "package:local_market/views/login.dart";
+import 'add_product.dart';
+import "package:carousel_pro/carousel_pro.dart";
 
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -16,7 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserController userController = new UserController();
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final Utils _utils = new Utils();
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +30,12 @@ class _HomePageState extends State<HomePage> {
       child: new Carousel(
         boxFit: BoxFit.cover,
         images: [
-          AssetImage('images/c1.jpg'),
-          AssetImage('images/m1.jpeg'),
-          AssetImage('images/m2.jpg'),
-          AssetImage('images/w1.jpeg'),
-          AssetImage('images/w3.jpeg'),
-          AssetImage('images/w4.jpeg'),
+          AssetImage('assets/img/c1.jpg'),
+          AssetImage('assets/img/m1.jpeg'),
+          AssetImage('assets/img/m2.jpg'),
+          AssetImage('assets/img/w1.jpeg'),
+          AssetImage('assets/img/w3.jpeg'),
+          AssetImage('assets/img/w4.jpeg'),
         ],
         autoplay: true,
         animationCurve: Curves.fastOutSlowIn,
@@ -73,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.pink,
+                color: Colors.red,
               ),
             ),
             InkWell(
@@ -125,6 +130,7 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () {
                 userController.logout();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: ListTile(
                 title: Text("Logout", style: TextStyle(color: Colors.black26),),
@@ -163,6 +169,18 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    check();
+  }
+
+  void check() async {
+    if(!(await _utils.isLoggedIn())){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+    }
   }
 }
 
