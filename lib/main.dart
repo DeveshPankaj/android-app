@@ -12,6 +12,6 @@ void main() => runApp(
       primaryColor: Colors.red.shade900
     ),
     //... changing home rout 
-    home: HomePage()
+    home: Login()
   )
 );

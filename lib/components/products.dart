@@ -16,12 +16,14 @@ class _ProductsState extends State<Products> {
       "picture": "images/products/blazer1.jpeg",
       "old_price": 120,
       "price": 85,
+      "currency":"rupee",
     },
     {
       "name": "Red dress",
       "picture": "images/products/dress1.jpeg",
       "old_price": 100,
       "price": 50,
+      "currency":"rupee",
     }
   ];
   @override
@@ -36,6 +38,7 @@ class _ProductsState extends State<Products> {
           prod_pricture: product_list[index]['picture'],
           prod_old_price: product_list[index]['old_price'],
           prod_price: product_list[index]['price'],
+          currency: product_list[index]['currency'],
         );
       },
     );
@@ -43,16 +46,21 @@ class _ProductsState extends State<Products> {
 }
 
 class Single_prod extends StatelessWidget {
+  final currency_symbol = {
+    "rupee": '₹',
+  };
   final prod_name;
   final prod_pricture;
   final prod_old_price;
   final prod_price;
+  final currency;
 
   Single_prod({
     this.prod_name,
     this.prod_pricture,
     this.prod_old_price,
     this.prod_price,
+    this.currency,
   });
 
   @override
@@ -68,6 +76,7 @@ class Single_prod extends StatelessWidget {
               prod_pricture: prod_pricture,
               prod_old_price: prod_old_price,
               prod_price: prod_price,
+              currency: currency,
             ))),
               child: GridTile(
                   footer: Container(
@@ -78,12 +87,12 @@ class Single_prod extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         title: Text(
-                          "\$$prod_price",
+                          "${currency_symbol[currency]} $prod_price",
                           style: TextStyle(
                               color: Colors.red, fontWeight: FontWeight.w800),
                         ),
                         subtitle: Text(
-                          "\$$prod_old_price",
+                          "${currency_symbol[currency]} $prod_old_price",
                           style: TextStyle(
                               color: Colors.black54,
                               fontWeight: FontWeight.w800,

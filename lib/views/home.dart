@@ -18,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserController userController = new UserController();
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     Widget images_carousel = new Container(
@@ -68,7 +71,12 @@ class _HomePageState extends State<HomePage> {
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person),
+                  // child: Icon(Icons.person),
+                  radius: 10.0,
+
+                  child: Image.asset(
+                     'images/profile.jpg',
+                  )
                 ),
               ),
               decoration: BoxDecoration(
@@ -124,7 +132,15 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(Icons.help, color: Colors.blue,),
               ),
             ),
-
+            InkWell(
+              onTap: (){
+                userController.logout();
+              },
+              child: ListTile(
+                title: Text("Logout"),
+                leading: Icon(Icons.help, color: Colors.blue,),
+              ),
+            ),
           ],
         ),
       ),

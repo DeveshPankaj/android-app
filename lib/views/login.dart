@@ -230,14 +230,14 @@ class _LoginState extends State<Login> {
   void ifLoggedIn() async {
 //... disabling login for testing id:1
 //1...
-    // FirebaseUser user = await firebaseAuth.currentUser();
-    // if(user != null){
+    FirebaseUser user = await firebaseAuth.currentUser();
+    if(user != null){
 //1...      
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
     
 //1...
-    // }
+    }
 //1...
   }
 }

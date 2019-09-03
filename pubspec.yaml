@@ -60,6 +60,8 @@ flutter:
     - images/w3.jpeg
     - images/w4.jpeg
 
+    - images/profile.jpg
+
     - images/cats/accessories.png
     - images/cats/dress.png
     - images/cats/formal.png
