@@ -12,27 +12,27 @@ class HorizontalList extends StatelessWidget {
           //   img_caption: 'Assessories',
           // ),
           Category(
-            img_location: 'images/cats/dress.png',
+            img_location: 'assets/cats/dress.png',
             img_caption: 'Dress',
           ),
           Category(
-            img_location: 'images/cats/formal.png',
+            img_location: 'assets/cats/formal.png',
             img_caption: 'Formal',
           ),
           Category(
-            img_location: 'images/cats/informal.png',
+            img_location: 'assets/cats/informal.png',
             img_caption: 'Informal',
           ),
           Category(
-            img_location: 'images/cats/jeans.png',
+            img_location: 'assets/cats/jeans.png',
             img_caption: 'Jeans',
           ),
           Category(
-            img_location: 'images/cats/shoe.png',
+            img_location: 'assets/cats/shoe.png',
             img_caption: 'Shoe',
           ),
           Category(
-            img_location: 'images/cats/tshirt.png',
+            img_location: 'assets/cats/tshirt.png',
             img_caption: 'Tshirt',
           ),
         ],
