@@ -211,7 +211,7 @@ class _LoginState extends State<Login> {
                 error = "Invalid email or password";
               });
             }else{
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
             }
       }).catchError((e){
         if(e.code == "ERROR_USER_NOT_FOUND"){
@@ -228,9 +228,16 @@ class _LoginState extends State<Login> {
   }
 
   void ifLoggedIn() async {
-    FirebaseUser user = await firebaseAuth.currentUser();
-    if(user != null){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
-    }
+//... disabling login for testing id:1
+//1...
+    // FirebaseUser user = await firebaseAuth.currentUser();
+    // if(user != null){
+//1...      
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+    
+//1...
+    // }
+//1...
   }
 }

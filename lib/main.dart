@@ -11,6 +11,7 @@ void main() => runApp(
     theme: ThemeData(
       primaryColor: Colors.red.shade900
     ),
-    home: Login()
+    //... changing home rout 
+    home: HomePage()
   )
 );

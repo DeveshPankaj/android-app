@@ -245,7 +245,7 @@ class _SignupState extends State<Signup> {
             "vendor" : "false"
           };
           userController.createUser(values);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
         }).catchError((e){
           if(e.code == "ERROR_EMAIL_ALREADY_IN_USE"){
             setState(() {
