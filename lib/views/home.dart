@@ -3,10 +3,7 @@ import "package:local_market/controller/user_controller.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:local_market/views/login.dart";
 
-
 import 'package:carousel_pro/carousel_pro.dart';
-
-
 
 // app own packages
 import 'package:local_market/components/horizontal_slide.dart';
@@ -71,107 +68,103 @@ class _HomePageState extends State<HomePage> {
               currentAccountPicture: GestureDetector(
                 child: new CircleAvatar(
                   backgroundColor: Colors.white,
-                  // child: Icon(Icons.person),
-                  radius: 10.0,
-
-                  child: Image.asset(
-                     'images/profile.jpg',
-                  )
+                  backgroundImage: NetworkImage(
+                      'https://avatars1.githubusercontent.com/u/28962789'),
                 ),
               ),
               decoration: BoxDecoration(
                 color: Colors.pink,
               ),
             ),
-
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("Home"),
                 leading: Icon(Icons.person, color: Colors.pink),
               ),
             ),
-
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("My Account"),
                 leading: Icon(Icons.shopping_basket, color: Colors.pink),
               ),
             ),
-
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("My Order"),
                 leading: Icon(Icons.dashboard, color: Colors.pink),
               ),
             ),
-
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("Favourites"),
                 leading: Icon(Icons.favorite, color: Colors.pink),
               ),
             ),
-
             Divider(),
-
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("Settings"),
                 leading: Icon(Icons.settings),
               ),
             ),
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: ListTile(
                 title: Text("Help"),
-                leading: Icon(Icons.help, color: Colors.blue,),
+                leading: Icon(
+                  Icons.help,
+                  color: Colors.blue,
+                ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 userController.logout();
               },
               child: ListTile(
-                title: Text("Logout"),
-                leading: Icon(Icons.help, color: Colors.blue,),
+                title: Text("Logout", style: TextStyle(color: Colors.black26),),
+                leading: Icon(
+                  Icons.warning,
+                  color: Colors.yellow,
+                ),
               ),
             ),
           ],
         ),
       ),
-
       body: new ListView(
         children: <Widget>[
           images_carousel,
 
           // padding
-          new Padding(padding: const EdgeInsets.all(8.0),
-          child: Text("Products"),),
+          new Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Products"),
+          ),
 
           // horizintal list view
           HorizontalList(),
 
           // padding
-          new Padding(padding: const EdgeInsets.all(16.0),
-          child: Text("New"),),
+          new Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text("New"),
+          ),
 
           new Container(
             height: 300.0,
             child: Products(),
           )
-
         ],
       ),
     );
   }
 }
-
-
 
 // UserController userController = new UserController();
 // final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
