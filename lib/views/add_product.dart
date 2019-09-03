@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import "package:local_market/controller/product_controller.dart";
 import 'package:local_market/utils/utils.dart';
 
-import 'Login.dart';
+import 'login.dart';
 
 class AddProduct extends StatefulWidget {
   @override

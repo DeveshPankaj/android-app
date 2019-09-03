@@ -232,7 +232,7 @@ class _LoginState extends State<Login> {
 
   void check() async {
     if((await _utils.isLoggedIn())){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
     }
 //1...
   }

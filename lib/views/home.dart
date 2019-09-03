@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
             InkWell(
               onTap: () {
                 userController.logout();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: ListTile(
                 title: Text("Logout", style: TextStyle(color: Colors.black26),),
