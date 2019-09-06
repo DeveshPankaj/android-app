@@ -13,6 +13,8 @@ import 'package:carousel_pro/carousel_pro.dart';
 // app own packages
 import 'package:local_market/components/horizontal_slide.dart';
 import 'package:local_market/components/products.dart';
+import 'package:local_market/views/searchPage.dart';
+import 'package:local_market/views/searchPage1.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -55,7 +57,11 @@ class _HomePageState extends State<HomePage> {
                 Icons.search,
                 color: Colors.white,
               ),
-              onPressed: null),
+              onPressed: (){
+                Navigator.of(context).push(
+                  new MaterialPageRoute(builder: (context) => new SearchPage1())
+                );
+              }),
           new IconButton(
               icon: Icon(
                 Icons.shopping_cart,
@@ -163,7 +169,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           new Container(
-            height: 300.0,
+            height: 360.0,
             child: Products(),
           )
         ],
