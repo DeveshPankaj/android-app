@@ -39,6 +39,35 @@ class _ProductsState extends State<Products> {
       "price": 85,
       "currency":"rupee",
     },
+
+    {
+      "name": "Red dress",
+      "picture": "assets/products/dress1.jpeg",
+      "old_price": 100,
+      "price": 50,
+      "currency":"rupee",
+    },
+    {
+      "name": "Black",
+      "picture": "assets/products/dress2.jpeg",
+      "old_price": 120,
+      "price": 85,
+      "currency":"rupee",
+    },
+    {
+      "name": "Blazer 1",
+      "picture": "assets/products/blazer1.jpeg",
+      "old_price": 120,
+      "price": 85,
+      "currency":"rupee",
+    },
+    {
+      "name": "Blazer 2",
+      "picture": "assets/products/blazer2.jpeg",
+      "old_price": 120,
+      "price": 85,
+      "currency":"rupee",
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,6 +82,7 @@ class _ProductsState extends State<Products> {
           prod_old_price: product_list[index]['old_price'],
           prod_price: product_list[index]['price'],
           currency: product_list[index]['currency'],
+          index: index,
         );
       },
     );
@@ -68,6 +98,7 @@ class Single_prod extends StatelessWidget {
   final prod_old_price;
   final prod_price;
   final currency;
+  final index;
 
   Single_prod({
     this.prod_name,
@@ -75,13 +106,16 @@ class Single_prod extends StatelessWidget {
     this.prod_old_price,
     this.prod_price,
     this.currency,
+    this.index,
   });
+
+  var id = 0;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Hero(
-          tag: prod_name,
+          tag: 'tag_'+(index).toString(),
           child: Material(
             child: InkWell(
               onTap: () => Navigator.of(context).push(
