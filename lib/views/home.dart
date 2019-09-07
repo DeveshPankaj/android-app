@@ -16,6 +16,9 @@ import 'package:local_market/components/products.dart';
 import 'package:local_market/views/searchPage.dart';
 import 'package:local_market/views/searchPage1.dart';
 
+import 'package:local_market/views/UserView.dart';
+
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -95,7 +98,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile()));
+              },
               child: ListTile(
                 title: Text("My Account"),
                 leading: Icon(Icons.shopping_basket, color: Colors.pink),
