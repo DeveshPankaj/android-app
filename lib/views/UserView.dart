@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:local_market/components/circular_loading_button.dart';
 
 class UserProfile extends StatefulWidget {
   @override
