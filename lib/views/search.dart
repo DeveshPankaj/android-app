@@ -7,6 +7,7 @@ import 'package:local_market/controller/product_controller.dart';
 import 'package:local_market/controller/search_controller.dart';
 import 'package:local_market/utils/utils.dart';
 import 'package:local_market/utils/globals.dart' as globals;
+import 'package:local_market/utils/cache.dart' as cache;
 
 class Search extends StatefulWidget {
   @override
@@ -191,37 +192,37 @@ class _SearchState extends State<Search> {
   }
 
   Future<void> fillProducts(String pattern) async {
-    if(globals.searchCache[pattern] == null){
+    if(cache.searchCache[pattern] == null){
       if(pattern.length == 1){
         print('getting1..');
-        globals.searchCache[pattern] = await _searchController.getN(pattern, 20);
+        cache.searchCache[pattern] = await _searchController.getN(pattern, 20);
       }else{
         String relative_pattern = pattern.substring(0, pattern.length - 1);
-        if(globals.searchCache[relative_pattern] == null){
+        if(cache.searchCache[relative_pattern] == null){
           print('getting data');
-          globals.searchCache[pattern] = await _searchController.getN(pattern, 20);
+          cache.searchCache[pattern] = await _searchController.getN(pattern, 20);
         }else{
           bool pattern_found = false;
 
           // _products = new List<Map<String, String>>();
-          globals.searchCache[pattern] = new List<Map<String, String>>();
-          for(var i = 0; i < globals.searchCache[relative_pattern].length; i++){
-            if(globals.searchCache[relative_pattern][i]['name'].indexOf(pattern) > 0){
+          cache.searchCache[pattern] = new List<Map<String, String>>();
+          for(var i = 0; i < cache.searchCache[relative_pattern].length; i++){
+            if(cache.searchCache[relative_pattern][i]['name'].indexOf(pattern) > 0){
               // print('Hello');
               pattern_found = true;
               
-              globals.searchCache[pattern].add(globals.searchCache[relative_pattern][i]);
+              cache.searchCache[pattern].add(cache.searchCache[relative_pattern][i]);
             }
           }
           if(!pattern_found){
             print('asdgetting data');
-            globals.searchCache[pattern] = await _searchController.getN(pattern, 15);
+            cache.searchCache[pattern] = await _searchController.getN(pattern, 15);
           }
         }
       }
     }
     setState(() {
-      _products = globals.searchCache[pattern];
+      _products = cache.searchCache[pattern];
       // print(_products);
     });
   }

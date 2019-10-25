@@ -11,6 +11,7 @@ import 'package:local_market/controller/product_controller.dart';
 import 'package:local_market/utils/utils.dart';
 import 'package:local_market/views/products.dart';
 import 'package:local_market/views/search.dart';
+import 'package:local_market/utils/cache.dart' as cache;
 
 class SubCategories extends StatefulWidget {
   String _categoryId;
@@ -54,7 +55,12 @@ class _SubCategoriesState extends State<SubCategories> {
       // });
         for(var i = 0; i < subCategories.length; i++){
           print(subCategories[i]);
-          List<DocumentSnapshot> products = await _productController.getNBySubCategory(subCategories[i]['id'], 6);
+          List<DocumentSnapshot> products;
+          if(cache.subCategoryPage[subCategories[i]['id']] == null){
+            print('getting from database...');
+            cache.subCategoryPage[subCategories[i]['id']] = await _productController.getNBySubCategory(subCategories[i]['id'], 6);
+          }
+          products = cache.subCategoryPage[subCategories[i]['id']];
           if(products.length > 0){
             products[0].data['subCategoryName'] = subCategories[i]['name'];
             results.add(products);
