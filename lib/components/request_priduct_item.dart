@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:local_market/controller/notification_controler.dart';
 
 class RequestItem extends StatelessWidget {
-  final String prod_name, prod_price, prod_image, prod_quantity, order_time, prod_size;
+  final String notificationId, prod_name, prod_price, prod_image, prod_quantity, order_time, prod_size;
+  Function(String notificationId) updateNotifications;
 
   RequestItem(
-      {this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time, this.prod_size});
+      {this.notificationId, this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time, this.prod_size, this.updateNotifications});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class RequestItem extends StatelessWidget {
               ],
             ),
 
-            prod_size != null ? new Row(
+            prod_size != 'null' ? new Row(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(0),
@@ -89,9 +91,19 @@ class RequestItem extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(
-          Icons.check,
-          color: Colors.green,
+        trailing: InkWell(
+          onTap: (){
+            NotificationController().remove(this.notificationId).then((res){
+              print('deleted');
+              this.updateNotifications(this.notificationId);
+            }).catchError((error){
+              print(error);
+            });
+          },
+          child: Icon(
+            Icons.check,
+            color: Colors.green,
+          ),
         ),
       ),
     );

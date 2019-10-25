@@ -34,13 +34,20 @@ class _ProductRequestsState extends State<ProductRequests> {
   TextEditingController _passwordTextController = new TextEditingController();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final Utils _utils = new Utils();
+
+  ScrollController _scrollController = ScrollController();
   
   var _loading = true;
   var _orderCount = -1;
 
+  bool moreNotificationAvailable = true;
+  bool gettingMoreNotification = false;
+  String lastNotificationId = null;
+
   @override
   Widget build(BuildContext context) {
     return Page(
+      controller: _scrollController,
       appBar: RegularAppBar(
         elevation: _utils.elevation,
         brightness: Brightness.light,
@@ -64,12 +71,14 @@ class _ProductRequestsState extends State<ProductRequests> {
                   return InkWell(
                     onTap: () {},
                     child: RequestItem(
+                      notificationId: _orders[i]['id'].toString(),
                       prod_name: _orders[i]['productName'].toString(),
                       prod_price: _orders[i]['prodPrice'].toString(),
                       prod_image: _orders[i]["productImage"].toString(),
                       order_time: _orders[i]['dateTime'].toString(),
                       prod_quantity: _orders[i]['quantity'].toString(),
-                      prod_size : _orders[i]['size'].toString()
+                      prod_size : _orders[i]['size'].toString(),
+                      updateNotifications : this.updateNotifications
                     ),
                   );
                 }),
@@ -92,132 +101,66 @@ class _ProductRequestsState extends State<ProductRequests> {
               )
       ],
     );
+  }
 
-    /*
-    Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: _utils.colors['appBarIcons']),
-        backgroundColor: _utils.colors['appBar'],
-        brightness: Brightness.light,
-        elevation: 0,
-        title: Text(
-          "Product Requests",
-          style: TextStyle(
-            color: _utils.colors['appBarText'],
-          ),
-        ),
-      ),
-      backgroundColor: _utils.colors['pageBackground'],
-      body: Stack(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-
-                  
-
-                  // RequestItem(
-                  //   prod_name:_orders[0]["productName"].toString(),
-                  //   prod_price:_orders[0]["prodPrice"].toString(),
-                  //   prod_image:"Image",
-                  //   order_time:_orders!=null?_orders[0]["date"].toString():"time",
-                  // ),
-
-                  RequestItem(
-                    prod_name:"Dal (moong)",
-                    prod_price:"150",
-                    prod_image:"https://firebasestorage.googleapis.com/v0/b/local-market-454fa.appspot.com/o/060618b0-ed20-11e9-a8b2-d12a53b0c76d?alt=media&token=7d284344-05bc-4dc8-b300-12202add1df8",
-                    order_time:"5:40 PM",
-                    prod_quantity: "1 kg"
-                  ),
-
-                  
-
-                  // Padding(
-                  //   padding: const EdgeInsets.all(10),
-                  //   child: Material(
-                  //     borderRadius: BorderRadius.circular(5.0),
-                  //     color: _utils.colors['textFieldBackground'].withOpacity(0.9),
-                  //     elevation: _utils.elevation,
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: ListTile(
-                  //         title: TextFormField(
-                  //           controller: _OldPasswordTextController,
-                  //           obscureText: hidePassword1,
-                  //           autofocus: false,
-                  //           decoration: InputDecoration(
-                  //               hintText: "Current Password",
-                  //               icon: Icon(OMIcons.lock),
-                  //                 suffixIcon: IconButton(icon: Icon(OMIcons.removeRedEye), onPressed: (){
-                  //                   setState(() {
-                  //                     hidePassword1 = !hidePassword1;
-                  //                   });
-                  //                 }),
-                  //               // border: InputBorder.none
-                  //               ),
-                  //           keyboardType: TextInputType.emailAddress,
-                  //           validator: (value) {
-                  //             if (value.isEmpty) {
-                  //               return "This field cannot be empty";
-                  //             } else if (value.length < 6)
-                  //               return "Should be more than 6 length";
-                  //             else
-                  //               return null;
-                  //           },
-                  //         ),
-                  //         // trailing:
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Text(error, style: TextStyle(
-                          color: _utils.colors['error'], fontWeight: FontWeight.w400, fontSize: 14
-                      ),),
-                    )
-                  ),
-
-                  //
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    */
+  void updateNotifications(String notificationId){
+    // print('Hello World');
+    for(var i = 0; i < this._orders.length; i++){
+      if(this._orders[i]['id'] == notificationId){
+        setState(() {
+          this._orders.removeAt(i);
+        });
+        break;
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    this._notificationController.getAll().then((orders) {
+    this._notificationController.getN(8).then((orders) {
       debugPrint(orders.toString());
-      // orders.add({
-      //   "id" : "Id",
-      //   "orderId" : "order",
-      //   "username" : "username",
-      //   "code" : "code",
-      //   "productId" : "pid",
-      //   "productName" : "Dal (moong)",
-      //   "productImage" : "https://firebasestorage.googleapis.com/v0/b/local-market-454fa.appspot.com/o/060618b0-ed20-11e9-a8b2-d12a53b0c76d?alt=media&token=7d284344-05bc-4dc8-b300-12202add1df8",
-      //   "quantity" : "Qul",
-      //   "prodPrice" : "100",
-      //   "dateTime" : "10:50 PM"
-      //   });
+      this.lastNotificationId = orders[orders.length - 1]['id'];
       setState(() {
         this._orders = orders;
         this._loading = false;
         this._orderCount = orders.length;
       });
     });
+
+    _scrollController.addListener((){
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.25;
+
+      if(maxScroll - currentScroll <= delta){
+        getMoreNotifications();
+      }
+    });
+  }
+
+  getMoreNotifications(){
+    if(moreNotificationAvailable){
+      if(gettingMoreNotification == true) return;
+      print('getting more notifications....');
+      gettingMoreNotification = true;
+      this._notificationController.getNNext(8, this.lastNotificationId).then((orders) {
+        debugPrint(orders.toString());
+        this._orders.addAll(orders);
+        this.lastNotificationId = orders[orders.length - 1]['id'];
+        if(orders.length < 8){
+          this.moreNotificationAvailable = false;
+        }
+        // this._orders.sort((a,b){
+        //   return b['dateTime'].compareTo(a['dateTime']);
+        // });
+        setState(() {
+          this._orderCount = orders.length;
+        });
+        this.gettingMoreNotification = false;
+      });
+    }else{
+      print('no more');
+    }
   }
 }

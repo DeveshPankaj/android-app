@@ -68,8 +68,62 @@ class NotificationController {
     return results;
   }
 
-  // Future<void> update(String uid, Map<String, String> details) async {
-  //   await _firestore.collection(ref).document(uid).updateData(details);
-  // }
+  Future<List<Map<String, String> > > getN(int n) async {
+    List<Map<String, String> > results = new List<Map<String, String> >();
+    // FirebaseUser _userId = await _userController.getCurrentUser();
+    // print(globals.currentUser.data);
+    QuerySnapshot notifications = await _firestore.collection(ref).document(globals.currentUser.data['uid']).collection(ref).orderBy('id').limit(n).getDocuments();
+
+    for(var i = 0; i < notifications.documents.length; i++){
+      DocumentSnapshot notification = notifications.documents[i];
+    
+      results.add({
+        "id" : notification.data['id'],
+        "orderId" : notification.data['orderId'],
+        "username" : notification.data['username'],
+        "code" : notification.data['code'],
+        "productId" : notification.data['productId'],
+        "productName" : notification.data['productName'],
+        "productImage" : notification.data['productImage'],
+        "quantity" : notification.data['quantity'],
+        "prodPrice" : notification.data['prodPrice'],
+        "dateTime": notification.data['dateTime'],
+        "size" : notification.data['size']
+      });
+    }
+    return results;
+  }
+
+  Future<List<Map<String, String> > > getNNext(int n, String lastNotificationId) async {
+    List<Map<String, String> > results = new List<Map<String, String> >();
+    // FirebaseUser _userId = await _userController.getCurrentUser();
+    // print(globals.currentUser.data);
+    QuerySnapshot notifications = await _firestore.collection(ref).document(globals.currentUser.data['uid']).collection(ref).orderBy('id').startAfter([lastNotificationId]).limit(n).getDocuments();
+
+    for(var i = 0; i < notifications.documents.length; i++){
+      DocumentSnapshot notification = notifications.documents[i];
+    
+      results.add({
+        "id" : notification.data['id'],
+        "orderId" : notification.data['orderId'],
+        "username" : notification.data['username'],
+        "code" : notification.data['code'],
+        "productId" : notification.data['productId'],
+        "productName" : notification.data['productName'],
+        "productImage" : notification.data['productImage'],
+        "quantity" : notification.data['quantity'],
+        "prodPrice" : notification.data['prodPrice'],
+        "dateTime": notification.data['dateTime'],
+        "size" : notification.data['size']
+      });
+    }
+    return results;
+  }
+
+  Future<void> remove(String notificationId) async {
+    await _firestore.collection(ref).document(globals.currentUser.data['uid']).collection(ref).document(notificationId).delete().catchError((e){
+      throw e;
+    });
+  }
 
 }

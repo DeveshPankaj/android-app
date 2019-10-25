@@ -54,8 +54,8 @@ class _ProductsState extends State<Products> {
       });
     });
     if(this._tagId == null){
-      _productController.getNBySubCategory(this._subCategoryId, 4).then((products){
-        if(products.length < 4){
+      _productController.getNBySubCategory(this._subCategoryId, 6).then((products){
+        if(products.length < 6){
           this.moreProductAvailable = false;
         }
         setState(() {
@@ -65,8 +65,8 @@ class _ProductsState extends State<Products> {
         });
       });
     }else{
-      _productController.getNByTag(this._subCategoryId, this._tagId, 4).then((products){
-        if(products.length < 4){
+      _productController.getNByTag(this._subCategoryId, this._tagId, 6).then((products){
+        if(products.length < 6){
           this.moreProductAvailable = false;
         }
         setState(() {
@@ -94,9 +94,9 @@ class _ProductsState extends State<Products> {
       if(gettingMoreProducts == true) return;
       gettingMoreProducts = true;
       if(this._tagId == null){
-        _productController.getNBySubCategoryNext(this._subCategoryId, 4, this.lastProductName).then((products){
+        _productController.getNBySubCategoryNext(this._subCategoryId, 6, this.lastProductName).then((products){
           this._products.addAll(products);
-          if(products.length < 4){
+          if(products.length < 6){
             this.moreProductAvailable = false;
           }
           this.lastProductName = products[products.length - 1]['name'];
@@ -107,9 +107,9 @@ class _ProductsState extends State<Products> {
           gettingMoreProducts = false;
         });
       }else{
-        _productController.getNByTagNext(this._subCategoryId, this._tagId, 4, this.lastProductName).then((products){
+        _productController.getNByTagNext(this._subCategoryId, this._tagId, 6, this.lastProductName).then((products){
           this._products.addAll(products);
-          if(products.length < 4){
+          if(products.length < 6){
             this.moreProductAvailable = false;
           }
           this.lastProductName = products[products.length - 1]['name'];
