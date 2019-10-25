@@ -16,7 +16,7 @@ class NotificationController {
   final String ref = "notification";
   // final ProductController _productController = new ProductController();
 
-  void add(String userId, String username, String phone, String orderId, var product, String dateTime, var count) {
+  void add(String userId, String username, String phone, String orderId, var product, String dateTime, var count, var size) {
 
     String notificationId = Uuid().v1();
 
@@ -36,7 +36,8 @@ class NotificationController {
       "productImage" : product['image'],
       "quantity" : count,
       "prodPrice" : product['offerPrice'],
-      "dateTime": dateTime
+      "dateTime": dateTime,
+      "size" : size
     });
   }
 
@@ -44,8 +45,8 @@ class NotificationController {
   Future<List<Map<String, String> > > getAll() async {
     List<Map<String, String> > results = new List<Map<String, String> >();
     // FirebaseUser _userId = await _userController.getCurrentUser();
-
-    QuerySnapshot notifications = await _firestore.collection(ref).document(globals.currentUser.data['id']).collection(ref).getDocuments();
+    // print(globals.currentUser.data);
+    QuerySnapshot notifications = await _firestore.collection(ref).document(globals.currentUser.data['uid']).collection(ref).orderBy('dateTime', descending: true).getDocuments();
 
     for(var i = 0; i < notifications.documents.length; i++){
       DocumentSnapshot notification = notifications.documents[i];
@@ -61,6 +62,7 @@ class NotificationController {
         "quantity" : notification.data['quantity'],
         "prodPrice" : notification.data['prodPrice'],
         "dateTime": notification.data['dateTime'],
+        "size" : notification.data['size']
       });
     }
     return results;

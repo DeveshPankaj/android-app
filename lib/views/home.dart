@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:local_market/components/app_bar.dart';
 import 'package:local_market/components/cart_icon.dart';
@@ -364,6 +365,45 @@ class _HomeState extends State<Home> {
     );
 
     children.add(
+      InkWell(
+        onTap: () async {
+          await FlutterShareMe().shareToSystem(msg: "Local Market - Online Shopping App").then((res){
+            print(res);
+          });
+        },
+        child: ListTile(
+          title: Text("Share"),
+          leading: Icon(OMIcons.share,
+            color: _utils.colors['drawerIcons'],
+          ),
+        ),
+      )
+    );
+
+
+
+    if(globals.currentUser != null){
+
+      children.add(
+        InkWell(
+          onTap: () {
+            userController.logout();
+            setState(() {
+              globals.currentUser = null;
+            });
+          },
+          child: ListTile(
+            title: Text("Logout"),
+            leading: Icon(
+              OMIcons.arrowBack,
+              color: _utils.colors['drawerIcons'],
+            ),
+          ),
+        )
+      );
+    }
+
+    children.add(
       Divider()
     );
 
@@ -413,26 +453,7 @@ class _HomeState extends State<Home> {
     //   )
     // );
 
-    if(globals.currentUser != null){
-
-      children.add(
-        InkWell(
-          onTap: () {
-            userController.logout();
-            setState(() {
-              globals.currentUser = null;
-            });
-          },
-          child: ListTile(
-            title: Text("Logout"),
-            leading: Icon(
-              OMIcons.arrowBack,
-              color: _utils.colors['drawerIcons'],
-            ),
-          ),
-        )
-      );
-    }
+    
 
     return Drawer(
       child: new ListView(

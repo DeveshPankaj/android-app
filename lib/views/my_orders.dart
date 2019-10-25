@@ -30,7 +30,7 @@ class _MyOrdersState extends State<MyOrders> {
   void initState() {
     super.initState();
     if(globals.currentUser != null){
-      _orderController.getByUserId(globals.currentUser.data['id']).then((orders){
+      _orderController.getByUserId(globals.currentUser.data['uid']).then((orders){
         print(orders[0].data.toString());
         setState(() {
           this._orders = orders;

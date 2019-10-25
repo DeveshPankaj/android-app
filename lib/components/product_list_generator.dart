@@ -42,6 +42,23 @@ class _ProductListGeneratorState extends State<ProductListGenerator> {
             leading: Image.network(_products[index]['image'], width: 50,),
             title: Text(_products[index]['name'].length > 30 ? _products[index]['name'].substring(0, 30) + '...' : _products[index]['name']),
             trailing: _edit ? editButton(_products[index]['id'], _products[index]['name'], _products[index]['image']): Text('') ,
+            subtitle: Row(
+              children: <Widget>[
+                Text(
+                  'Price: ',
+                  style: TextStyle(
+                    fontSize: 12
+                  ),
+                ),
+                Text(
+                  '₹${_products[index]['offerPrice']}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.green
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },

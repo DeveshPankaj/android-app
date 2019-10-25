@@ -26,18 +26,20 @@ class OrderController {
     }).then((res){
 
       for(var i = 0; i < keys.length; i++){
-      _notificationController.add(cart[keys[i]]['data']['vendorId'], username, phone, orderId, cart[keys[i]]['data'], dateTime, cart[keys[i]]['count']);
-      _firestore.collection(ref).document(orderId).collection('products').add({
-          "id" : cart[keys[i]]['data']['id'],
-          "image" : cart[keys[i]]['data']['image'],
-          "name" : cart[keys[i]]['data']['name'],
-          "price" : cart[keys[i]]['data']['offerPrice'],
-          "vendorId" : cart[keys[i]]['data']['vendorId'],
-          "quantity" : cart[keys[i]]['count'],
-          "size" : cart[keys[i]]['size']
-        }).catchError((e){
-          throw(e);
-        });
+        if(cart[keys[i]]['count'] != '0'){
+        _notificationController.add(cart[keys[i]]['data']['vendorId'], username, phone, orderId, cart[keys[i]]['data'], dateTime, cart[keys[i]]['count'], cart[keys[i]]['size']);
+        _firestore.collection(ref).document(orderId).collection('products').add({
+            "id" : cart[keys[i]]['data']['id'],
+            "image" : cart[keys[i]]['data']['image'],
+            "name" : cart[keys[i]]['data']['name'],
+            "price" : cart[keys[i]]['data']['offerPrice'],
+            "vendorId" : cart[keys[i]]['data']['vendorId'],
+            "quantity" : cart[keys[i]]['count'],
+            "size" : cart[keys[i]]['size']
+          }).catchError((e){
+            throw(e);
+          });
+        }
       }      
     }).catchError((e){
       throw e;

@@ -64,7 +64,7 @@ class _UpdateProductState extends State<UpdateProduct> {
     });
 
     // _userController.getCurrentUser().then((user){
-      _productController.getPrice(_productId, globals.currentUser.data['id']).then((product){
+      _productController.getPrice(_productId, globals.currentUser.data['uid']).then((product){
         setState(() {
           _productPriceController.text = product.data['price'];
           _productOfferPriceController.text = product.data['offerPrice'];
@@ -293,8 +293,8 @@ class _UpdateProductState extends State<UpdateProduct> {
         _buttonLoading = true;
       });
       // FirebaseUser user = await _userController.getCurrentUser();
-      _productController.updatePrice(_productId, globals.currentUser.data['id'], {
-        "id" : globals.currentUser.data['id'],
+      _productController.updatePrice(_productId, globals.currentUser.data['uid'], {
+        "id" : globals.currentUser.data['uid'],
         "price" : _productPriceController.text,
         "offerPrice" : _productOfferPriceController.text,
         "inStock" : inStock.toString(),

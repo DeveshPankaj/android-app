@@ -19,7 +19,11 @@ class SearchController {
         "image" : doc.data['image'],
         "price" : doc.data['price'],
         "offerPrice" : doc.data['offerPrice'],
-        "vendorId" : doc.data['vendorId']
+        "vendorId" : doc.data['vendorId'],
+        "description" : doc.data['description'],
+        "category" : doc.data['category'],
+        "subCategory" : doc.data['subCategory'],
+        "tag" : doc.data['tag']
       });
     }
     return results;

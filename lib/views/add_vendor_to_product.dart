@@ -245,8 +245,8 @@ class _AddVendorToProductState extends State<AddVendorToProduct> {
         _buttonLoading = true;
       });
       // FirebaseUser _currentUser = await _userController.getCurrentUser();
-      await _productController.updatePrice(_productId, globals.currentUser.data['id'], {
-        "id" : globals.currentUser.data['id'],
+      await _productController.updatePrice(_productId, globals.currentUser.data['uid'], {
+        "id" : globals.currentUser.data['uid'],
         "price" : _productPriceController.text,
         "offerPrice": _productOfferPriceController.text,
         "inStock" : inStock.toString(),

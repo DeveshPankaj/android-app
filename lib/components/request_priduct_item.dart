@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class RequestItem extends StatelessWidget {
-  final String prod_name, prod_price, prod_image, prod_quantity, order_time;
+  final String prod_name, prod_price, prod_image, prod_quantity, order_time, prod_size;
 
   RequestItem(
-      {this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time});
+      {this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time, this.prod_size});
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +58,25 @@ class RequestItem extends StatelessWidget {
                 ),
               ],
             ),
+
+            prod_size != null ? new Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: new Text(
+                    "Size: ",
+                    style: TextStyle(fontSize: 13.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
+                  child: new Text(
+                    prod_size.toString(),
+                    style: TextStyle(color: Colors.green, fontSize: 13.0),
+                  ),
+                ),
+              ],
+            ) : Container(),
             new Container(
               alignment: Alignment.topLeft,
               child: new Text(

@@ -43,7 +43,7 @@ class _MyProductsState extends State<MyProducts> {
   void fillProducts() async {
     _loading = true;
     // FirebaseUser user = await _userController.getCurrentUser();
-    QuerySnapshot products = await Firestore.instance.collection('users').document(globals.currentUser.data['id']).collection('products').getDocuments();
+    QuerySnapshot products = await Firestore.instance.collection('users').document(globals.currentUser.data['uid']).collection('products').getDocuments();
     for(var i = 0; i < products.documents.length; i++){
       DocumentSnapshot product = await _productController.get(products.documents[i]['id']);
       if(product.data != null && product.data['subCategory'] == this.subCategoryId) {

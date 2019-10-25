@@ -60,35 +60,34 @@ class ProductController {
         "image" : doc.data['image'],
         "price" : doc.data['price'],
         "offerPrice" : doc.data['offerPrice'],
-        "vendorId" : doc.data['vendorId']
+        "vendorId" : doc.data['vendorId'],
+        "description" : doc.data['description'],
+        "category" : doc.data['category'],
+        "subCategory" : doc.data['subCategory'],
+        "tag" : doc.data['tag']
       });
     });
     return results;
   }
 
-  Future<List<Map<String, String> > > getRelated(String pattern) async {
+  Future<List<Map<String, String> > > getRelated(Map<String, String> product) async {
     List<Map<String, String> > results = new List<Map<String, String> >();
-    Map<String, bool> dp = new Map<String, bool>();
-    pattern = pattern.toLowerCase();
-    final relatedPatterns = pattern.split(' ');
-    for(var i = 0; i < relatedPatterns.length; i++){
-      QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('name').startAt([pattern]).endAt([pattern + '\uf8ff']).getDocuments();
-      snapshot.documents.forEach((doc){
-        // print('dp : ' + dp[doc.data['id']].toString());
-        if(dp[doc.data['id']] == null){
-          results.add({
-            "id" : doc.data['id'],
-            "name" : doc.data['name'],
-            "image" : doc.data['image'],
-            "price" : doc.data['price'],
-            "offerPrice" : doc.data['offerPrice'],
-            "vendorId": doc.data['vendorId'],
-            "description" : doc.data['description'],
-          });
-          dp[doc.data['id']] = true;
-        }
+    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('subCategory').startAt([product['subCategory']]).endAt([product['subCategory'] + '\uf8ff']).limit(20).getDocuments();
+    snapshot.documents.forEach((doc){
+      // print('dp : ' + dp[doc.data['id']].toString());
+      results.add({
+        "id" : doc.data['id'],
+        "name" : doc.data['name'],
+        "image" : doc.data['image'],
+        "price" : doc.data['price'],
+        "offerPrice" : doc.data['offerPrice'],
+        "vendorId": doc.data['vendorId'],
+        "description" : doc.data['description'],
+        "category" : doc.data['category'],
+        "subCategory" : doc.data['subCategory'],
+        "tag" : doc.data['tag']
       });
-    }
+    });
     return results;
   }
 

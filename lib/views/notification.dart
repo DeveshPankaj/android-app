@@ -64,11 +64,13 @@ class _ProductRequestsState extends State<ProductRequests> {
                   return InkWell(
                     onTap: () {},
                     child: RequestItem(
-                        prod_name: _orders[i]['productName'].toString(),
-                        prod_price: _orders[i]['prodPrice'].toString(),
-                        prod_image: _orders[i]["productImage"].toString(),
-                        order_time: _orders[i]['dateTime'].toString(),
-                        prod_quantity: _orders[i]['quantity'].toString()),
+                      prod_name: _orders[i]['productName'].toString(),
+                      prod_price: _orders[i]['prodPrice'].toString(),
+                      prod_image: _orders[i]["productImage"].toString(),
+                      order_time: _orders[i]['dateTime'].toString(),
+                      prod_quantity: _orders[i]['quantity'].toString(),
+                      prod_size : _orders[i]['size'].toString()
+                    ),
                   );
                 }),
         this._orderCount == 0
@@ -77,7 +79,7 @@ class _ProductRequestsState extends State<ProductRequests> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        "No Order Fount",
+                        "No Notification Found",
                         style: TextStyle(
                             color: _utils.colors['searchBarIcons'],
                             fontWeight: FontWeight.w400,

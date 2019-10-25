@@ -97,8 +97,8 @@ class _SearchState extends State<Search> {
     }else return [];
   }
 
-  Future<void> generateProductsForResults(String pattern) async {
-    List<Map<String, String> > relatedProducts = await _productController.getRelated(pattern);
+  Future<void> generateProductsForResults(Map<String, String> product) async {
+    List<Map<String, String> > relatedProducts = await _productController.getRelated(product);
     setState(() {
       _selectedProduct = relatedProducts;
       _loading = false;
@@ -142,7 +142,7 @@ class _SearchState extends State<Search> {
       itemBuilder: (context, index){
         return ListTile(
           onTap: (){
-            generateProductsForResults(query.toLowerCase());
+            generateProductsForResults(_productSuggestions[index]);
             setState(() {
               _loading = true;
               _searching = false;

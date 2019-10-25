@@ -75,7 +75,7 @@ class _PaymentState extends State<Payment> {
                     setState(() {
                       _loading = true;
                     });
-                    await _orderController.add(globals.cart, globals.total < 250 ? this.deliverCharge : 0, globals.currentUser.data['id'], this.name, this.address, this.phone, this.landmark).then((orderId){
+                    await _orderController.add(globals.cart, globals.total < 250 ? this.deliverCharge : 0, globals.currentUser.data['uid'], this.name, this.address, this.phone, this.landmark).then((orderId){
                       globals.cart = new Map<String, dynamic>();
                       globals.cartSize = 0;
                       globals.total = 0;
@@ -158,15 +158,17 @@ class _PaymentState extends State<Payment> {
               // total = 0;
               var keys = this.cart.keys.toList();
 //            this.total += double.parse(this.cart[keys[i]]['data']['price']) * double.parse(this.cart[keys[i]]['count']);
-              return product_instance_cart(this.cart[keys[i]]['data']["id"],
-                this.cart[keys[i]]['data']["image"],
-                this.cart[keys[i]]['data']["name"],
-                this.cart[keys[i]]['data']["price"],
-                this.cart[keys[i]]['data']["offerPrice"],
-                this.cart[keys[i]]['count'],
-                this.cart[keys[i]]['size']
+              if(this.cart[keys[i]]['count'] != "0"){
+                return product_instance_cart(this.cart[keys[i]]['data']["id"],
+                  this.cart[keys[i]]['data']["image"],
+                  this.cart[keys[i]]['data']["name"],
+                  this.cart[keys[i]]['data']["price"],
+                  this.cart[keys[i]]['data']["offerPrice"],
+                  this.cart[keys[i]]['count'],
+                  this.cart[keys[i]]['size']
 
-              );
+                );
+              }else return Container();
             }
         ),
         PageItem(

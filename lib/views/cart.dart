@@ -98,7 +98,7 @@ class _CartState extends State<Cart> {
         color: Colors.white,
         child:Padding(
           padding: const EdgeInsets.all(8.0),
-          child: this.cart.length == 0 ? 
+          child: globals.total == 0 ? 
           MaterialButton(onPressed: (){
             Navigator.pop(context);
           },

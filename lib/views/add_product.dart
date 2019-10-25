@@ -437,12 +437,12 @@ class _AddProductState extends State<AddProduct> {
         // FirebaseUser currentUser = await userController.getCurrentUser();
         // DocumentSnapshot userDetails = await userController.getUser(currentUser.uid.toString());
 
-        _productController.add(_productImage,_productNameController.text, _productDescriptionController.text,globals.currentUser.data['id'], this._selectedTag['id'], this._selectedSubCategory['id'], this._selectedCategory['id'],{
+        _productController.add(_productImage,_productNameController.text, _productDescriptionController.text,globals.currentUser.data['uid'], this._selectedTag['id'], this._selectedSubCategory['id'], this._selectedCategory['id'],{
           "price": _productPriceController.text,
           "offerPrice" : _productOfferPriceController.text,
           "inStock": inStock.toString(),
           // "vendorName": userDetails.data['name'],
-          "id": globals.currentUser.data['id'],
+          "id": globals.currentUser.data['uid'],
           "size" : this.getSelectedSize()
           // "vendorAddress": userDetails.data['address']
         }).then((value){
