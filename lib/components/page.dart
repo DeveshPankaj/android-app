@@ -5,13 +5,15 @@ class Page extends StatelessWidget {
   List<Widget> children;
   Drawer drawer;
   Widget bottomNavigationBar;
+  ScrollController controller;
 
 
   Page({
     this.appBar,
     @required this.children,
     this.drawer,
-    this.bottomNavigationBar
+    this.bottomNavigationBar,
+    this.controller
   });
 
   List<Widget> generateBody(){
@@ -29,7 +31,8 @@ class Page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: generateBody()
+        slivers: generateBody(),
+        controller: this.controller,
       ),
       drawer: drawer,
       bottomNavigationBar: this.bottomNavigationBar,

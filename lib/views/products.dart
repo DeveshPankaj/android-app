@@ -38,6 +38,10 @@ class _ProductsState extends State<Products> {
   String _categoryId;
   _ProductsState(this._tagId, this._subCategoryId, this._categoryId);
   bool _loading = true;
+  ScrollController _scrollController = ScrollController();
+  String lastProductName = null;
+  bool moreProductAvailable = true;
+  bool gettingMoreProducts = false;
 
   List<DocumentSnapshot> _products = null;
 
@@ -50,25 +54,78 @@ class _ProductsState extends State<Products> {
       });
     });
     if(this._tagId == null){
-      _productController.getBySubCategory(this._subCategoryId).then((products){
+      _productController.getNBySubCategory(this._subCategoryId, 4).then((products){
+        if(products.length < 4){
+          this.moreProductAvailable = false;
+        }
         setState(() {
           this._products = products;
+          this.lastProductName = products[products.length - 1]['name'];
           this._loading = false;
         });
       });
     }else{
-      _productController.getByTag(this._subCategoryId, this._tagId).then((products){
+      _productController.getNByTag(this._subCategoryId, this._tagId, 4).then((products){
+        if(products.length < 4){
+          this.moreProductAvailable = false;
+        }
         setState(() {
           this._products = products;
+          this.lastProductName = products[products.length - 1]['name'];
           this._loading = false;
         });
       });
+    }
+
+    _scrollController.addListener((){
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.25;
+
+      if(maxScroll - currentScroll <= delta){
+        getMoreProducts();
+      }
+    });
+  }
+
+  void getMoreProducts(){
+    if(moreProductAvailable){
+      print('getting more products....');
+      if(gettingMoreProducts == true) return;
+      gettingMoreProducts = true;
+      if(this._tagId == null){
+        _productController.getNBySubCategoryNext(this._subCategoryId, 4, this.lastProductName).then((products){
+          this._products.addAll(products);
+          if(products.length < 4){
+            this.moreProductAvailable = false;
+          }
+          this.lastProductName = products[products.length - 1]['name'];
+          print(lastProductName);
+          setState(() {
+            
+          });
+          gettingMoreProducts = false;
+        });
+      }else{
+        _productController.getNByTagNext(this._subCategoryId, this._tagId, 4, this.lastProductName).then((products){
+          this._products.addAll(products);
+          if(products.length < 4){
+            this.moreProductAvailable = false;
+          }
+          this.lastProductName = products[products.length - 1]['name'];
+          setState(() {
+            
+          });
+          gettingMoreProducts = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Page(
+      controller: _scrollController,
       appBar: RegularAppBar(
         backgroundColor: _utils.colors['appBar'],
         elevation: _utils.elevation,

@@ -72,7 +72,7 @@ class ProductController {
 
   Future<List<Map<String, String> > > getRelated(Map<String, String> product) async {
     List<Map<String, String> > results = new List<Map<String, String> >();
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('subCategory').startAt([product['subCategory']]).endAt([product['subCategory'] + '\uf8ff']).limit(20).getDocuments();
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: product['subCategory']).limit(20).getDocuments();
     snapshot.documents.forEach((doc){
       // print('dp : ' + dp[doc.data['id']].toString());
       results.add({
@@ -156,16 +156,19 @@ class ProductController {
     });
   }
 
-  Future<List<DocumentSnapshot>> getNByTag(String tag, int n) async {
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('tag').startAt([tag]).endAt([tag + '\uf8ff']).limit(n).getDocuments();
-    // print(snapshot.documents.toString());
-    // snapshot.documents.forEach((f){
-    //   print(f.data.toString());
-    // });
+  Future<List<DocumentSnapshot>> getNByTag(String subCategory,String tag, int n) async {
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategory).where('tag', isEqualTo: tag).orderBy('name').limit(n).getDocuments();
     return snapshot.documents;
   }
+
+  Future<List<DocumentSnapshot>> getNByTagNext(String subCategory,String tag, int n, String lastProductName) async {
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategory).where('tag', isEqualTo: tag).orderBy('name').startAfter([lastProductName]).limit(n).getDocuments();
+    return snapshot.documents;
+  }
+
+
   Future<List<DocumentSnapshot>> getByTag(String subCategory, String tag) async {
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('subCategory').startAt([subCategory]).endAt([subCategory + '\uf8ff']).orderBy('tag').startAt([tag]).endAt([tag + '\uf8ff']).getDocuments();
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategory).where('tag', isEqualTo: tag).orderBy('name').getDocuments();
     // print(snapshot.documents.toString());
     // snapshot.documents.forEach((f){
     //   print(f.data.toString());
@@ -174,19 +177,25 @@ class ProductController {
   }
 
   Future<List<DocumentSnapshot>> getBySubCategory(String subCategoryId) async {
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('subCategory').startAt([subCategoryId]).endAt([subCategoryId + '\uf8ff']).getDocuments();
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategoryId).orderBy('name').getDocuments();
 
     return snapshot.documents;
   }
 
   Future<List<DocumentSnapshot>> getNBySubCategory(String subCategoryId, int n) async {
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('subCategory').startAt([subCategoryId]).endAt([subCategoryId + '\uf8ff']).limit(n).getDocuments();
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategoryId).orderBy('name').limit(n).getDocuments();
+
+    return snapshot.documents;
+  }
+
+  Future<List<DocumentSnapshot>> getNBySubCategoryNext(String subCategoryId, int n, String lastProductName) async {
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('subCategory', isEqualTo: subCategoryId).orderBy('name').startAfter([lastProductName]).limit(n).getDocuments();
 
     return snapshot.documents;
   }
 
   Future<List<DocumentSnapshot>> getNByCategory(String categoryId, int n) async {
-    QuerySnapshot snapshot = await _firestore.collection(ref).orderBy('category').startAt([categoryId]).endAt([categoryId + '\uf8ff']).limit(n).getDocuments();
+    QuerySnapshot snapshot = await _firestore.collection(ref).where('category', isEqualTo: categoryId).limit(n).getDocuments();
 
     return snapshot.documents;
   }
