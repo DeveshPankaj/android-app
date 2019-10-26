@@ -5,21 +5,24 @@ import 'package:local_market/components/page.dart';
 import 'package:local_market/utils/utils.dart';
 import 'package:local_market/views/product_view.dart';
 import 'package:local_market/views/products.dart';
+import 'package:local_market/views/sub_categories.dart';
 
 class Product extends StatefulWidget {
 
   var _product;
   bool _inner;
   bool _viewAll;
+  String page;
 
-  Product(product, inner, viewAll) {
+  Product(product, inner, viewAll, page) {
     this._product = product;
     this._inner = inner;
     this._viewAll = viewAll;
+    this.page = page;
   }
 
   @override
-  _ProductState createState() => _ProductState(this._product, this._inner, this._viewAll);
+  _ProductState createState() => _ProductState(this._product, this._inner, this._viewAll, this.page);
 }
 
 class _ProductState extends State<Product> {
@@ -30,11 +33,13 @@ class _ProductState extends State<Product> {
   int count = 0;
   bool _inner;
   bool _viewAll;
+  String page;
 
-  _ProductState(product, _inner, viewAll) {
+  _ProductState(product, _inner, viewAll, page) {
     this._product = product;
     this._inner = _inner;
     this._viewAll = viewAll;
+    this.page = page;
   }
 
   @override
@@ -50,7 +55,11 @@ class _ProductState extends State<Product> {
             backgroundColor: _utils.colors['theme'],
             label: InkWell(
               onTap: (){
-                Navigator.push(context, CupertinoPageRoute(builder: (context) => Products(null, _product['subCategory'] ,_product['category'])));
+                if(this.page == 'home'){
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SubCategories(_product['category'])));
+                }else{
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => Products(null, _product['subCategory'] ,_product['category'])));
+                }
               },
               child: Text(
                 "View all",

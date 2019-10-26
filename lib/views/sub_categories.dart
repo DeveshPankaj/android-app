@@ -181,8 +181,8 @@ class _SubCategoriesState extends State<SubCategories> {
                       itemCount: product_list.length + 1,
                       itemBuilder: (context, i){
                         // print(product_list[i].data);
-                        if(i == product_list.length) return Product(product_list[i - 1].data, false, true);
-                        else return Product(product_list[i].data, false, false);
+                        if(i == product_list.length) return Product(product_list[i - 1].data, false, true, 'subCategory');
+                        else return Product(product_list[i].data, false, false, 'subCategory');
                       },
                     ),
                   ),

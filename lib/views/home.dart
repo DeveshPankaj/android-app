@@ -368,7 +368,7 @@ class _HomeState extends State<Home> {
     children.add(
       InkWell(
         onTap: () async {
-          await FlutterShareMe().shareToSystem(msg: "Local Market - Online Shopping App").then((res){
+          await FlutterShareMe().shareToSystem(msg: "https://play.google.com/store/apps/details?id=market.local.com.local_market").then((res){
             print(res);
           });
         },
@@ -535,9 +535,9 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, i){
                     if(i == product_list.length) {
                       // print(i);
-                      return Product(product_list[i - 1].data, false, true);
+                      return Product(product_list[i - 1].data, false, true, 'home');
                     }
-                    else return Product(product_list[i].data, false, false);
+                    else return Product(product_list[i].data, false, false, 'home');
                   },
                 ),
               ),
