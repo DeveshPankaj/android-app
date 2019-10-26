@@ -68,18 +68,17 @@ class _ProductRequestsState extends State<ProductRequests> {
             : PageList.builder(
                 itemCount: this._orders.length,
                 itemBuilder: (context, i) {
-                  return InkWell(
-                    onTap: () {},
-                    child: RequestItem(
-                      notificationId: _orders[i]['id'].toString(),
-                      prod_name: _orders[i]['productName'].toString(),
-                      prod_price: _orders[i]['prodPrice'].toString(),
-                      prod_image: _orders[i]["productImage"].toString(),
-                      order_time: _orders[i]['dateTime'].toString(),
-                      prod_quantity: _orders[i]['quantity'].toString(),
-                      prod_size : _orders[i]['size'].toString(),
-                      updateNotifications : this.updateNotifications
-                    ),
+                return RequestItem(
+                    notificationId: _orders[i]['id'].toString(),
+                    prod_name: _orders[i]['productName'].toString(),
+                    prod_price: _orders[i]['prodPrice'].toString(),
+                    prod_image: _orders[i]["productImage"].toString(),
+                    order_time: _orders[i]['dateTime'].toString(),
+                    prod_quantity: _orders[i]['quantity'].toString(),
+                    prod_size : _orders[i]['size'].toString(),
+                    updateNotifications : this.updateNotifications,
+                    username : _orders[i]['username'].toString(),
+                    code : _orders[i]['code'].toString()
                   );
                 }),
         this._orderCount == 0

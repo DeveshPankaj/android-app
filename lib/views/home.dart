@@ -23,6 +23,7 @@ import 'package:local_market/views/my_products.dart';
 import "package:local_market/views/search.dart";
 import 'package:local_market/views/sub_categories.dart';
 import 'package:local_market/views/user_profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'add_product.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -46,18 +47,18 @@ class _HomeState extends State<Home> {
   Widget getCarousel(){
     return CarouselSlider(
       items: [
-        'assets/img/1.jpg',
-        'assets/img/2.jpg',
-        'assets/img/3.jpg',
-        'assets/img/4.jpg',
-        'assets/img/5.jpg',
+        'https://github.com/local-market/carousel/blob/master/1.jpg?raw=true',
+        'https://github.com/local-market/carousel/blob/master/2.jpg?raw=true',
+        'https://github.com/local-market/carousel/blob/master/3.jpg?raw=true',
+        'https://github.com/local-market/carousel/blob/master/4.jpg?raw=true',
+        'https://github.com/local-market/carousel/blob/master/5.jpg?raw=true',
       ].map((image){
         return Builder(
           builder: (BuildContext context){
             return Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(image,
+                child: Image.network(image,
                   fit: BoxFit.cover,
                   // width: MediaQuery.of(context).size.width,
                 ),
@@ -418,6 +419,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           InkWell(
             onTap: () {
+              launch('https://local-market.github.io/t&c.html');
             },
             child: ListTile(
               title: Text("Terms of Use"),
@@ -425,6 +427,7 @@ class _HomeState extends State<Home> {
           ),
           InkWell(
             onTap: () {
+              launch('https://local-market.github.io/index.html');
             },
             child: ListTile(
               title: Text("Privacy Policy"),
@@ -432,6 +435,7 @@ class _HomeState extends State<Home> {
           ),
           InkWell(
             onTap: () {
+              launch('https://local-market.github.io/replacement_policy.html');
             },
             child: ListTile(
               title: Text("Replacement Policy"),

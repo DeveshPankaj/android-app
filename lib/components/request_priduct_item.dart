@@ -1,21 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_market/controller/notification_controler.dart';
+import 'package:local_market/views/image_preview.dart';
 
 class RequestItem extends StatelessWidget {
-  final String notificationId, prod_name, prod_price, prod_image, prod_quantity, order_time, prod_size;
+  final String notificationId, prod_name, prod_price, prod_image, prod_quantity, order_time, prod_size, username, code;
   Function(String notificationId) updateNotifications;
 
   RequestItem(
-      {this.notificationId, this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time, this.prod_size, this.updateNotifications});
+      {this.notificationId, this.prod_name, this.prod_price, this.prod_image, this.prod_quantity, this.order_time, this.prod_size, this.updateNotifications, this.username, this.code});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Image.network(prod_image,
-          width: 60.0,
-          // height: 0.0,
-          // fit: BoxFit.cover,
+        leading: InkWell(
+          onTap: (){
+            // print('Hello');
+            Navigator.push(context, CupertinoPageRoute(builder: (context) => ImagePreview(prod_image)));
+          },
+          child: Image.network(prod_image,
+            width: 60.0,
+            // height: 0.0,
+            // fit: BoxFit.cover,
+          ),
         ),
         title: new Text(
           "$prod_name ",
@@ -83,6 +91,16 @@ class RequestItem extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: new Text(
                 '$order_time',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            new Container(
+              alignment: Alignment.topLeft,
+              child: new Text(
+                'Order Code : $username$code',
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,

@@ -4,12 +4,14 @@ import "package:flutter/gestures.dart";
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:local_market/components/circular_loading_button.dart';
+import 'package:local_market/controller/user_controller.dart';
 import 'package:local_market/utils/utils.dart';
 import 'package:local_market/views/cart.dart';
 import "package:local_market/views/signup.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:local_market/views/home.dart";
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:local_market/utils/globals.dart' as globals;
 
 class Login extends StatefulWidget {
   String route;
@@ -253,6 +255,9 @@ class _LoginState extends State<Login> {
             }else{
               setState(() {
                 _loading = false;
+              });
+              UserController().getCurrentUserDetails().then((user){
+                globals.currentUser = user;
               });
               if(this.route == "cart"){
                 Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => Cart()));

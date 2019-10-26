@@ -11,6 +11,7 @@ import 'package:local_market/utils/utils.dart';
 import 'package:local_market/views/phone_verification.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:local_market/utils/globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _SignupState extends State<Signup> {
   bool hidePassword = true;
   bool _loading = false;
   String error = '';
+  bool _terms = false;
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +177,92 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
 
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(27, 8, 14, 8),
+                      child: Wrap(
+                        children: <Widget>[
+                          Checkbox(
+                            value : _terms,
+                            activeColor: _utils.colors['theme'],
+                            onChanged: (value){
+                              setState(() {
+                                this._terms = value;
+                              });
+                            },
+                          ),
+                          // RichText(
+                          //   text: TextSpan(
+                          //     children: [
+                          //       TextSpan(
+                          //         text: "Please accept ",
+                          //         style: TextStyle(
+                          //           color: Colors.black
+                          //         )
+                          //       ),
+                          //       TextSpan(
+                          //         text: "terms of use",
+                          //         style: TextStyle(
+                          //           color: Colors.black
+                          //         )
+                          //       ),
+                          //       TextSpan(
+                          //         text: ", privacy policy",
+                          //         style: TextStyle(
+                          //           color: Colors.black
+                          //         )
+                          //       ),
+                          //       TextSpan(
+                          //         text: ", replacement policy",
+                          //         style: TextStyle(
+                          //           color: Colors.black
+                          //         )
+                          //       ),
+                          //     ]
+                          //   ),
+                          // ),
+                          Wrap(
+                            children: <Widget>[
+                              Text("Please accept "),
+                              InkWell(
+                                onTap: (){
+                                  launch('https://local-market.github.io/t&c.html');
+                                },
+                                child: Text(
+                                  "terms of use",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline
+                                  ),
+                                )
+                              ),
+                              InkWell(
+                                onTap: (){
+                                  launch('https://local-market.github.io/index.html');
+                                },
+                                child: Text(
+                                  ", privacy policy",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline
+                                  ),
+                                )
+                              ),
+                              InkWell(
+                                onTap: (){
+                                  launch('https://local-market.github.io/replacement_policy.html');
+                                },
+                                child: Text(
+                                  ", replacement policy",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline
+                                  ),
+                                )
+                              )
+                            ],
+                          )
+                          
+                        ],
+                      )
+                    ),
+
                     // Padding(
                     //   padding: const EdgeInsets.all(8.0),
                     //   child: Center(
@@ -260,6 +348,9 @@ class _SignupState extends State<Signup> {
     setState(() {
       _loading = true;
     });
+    if(!this._terms){
+      Fluttertoast.showToast(msg:"Please accept policies");
+    }
     FormState formState = _formKey.currentState;
     if(formState.validate()){
       // FirebaseUser user = await userController.getCurrentUser();

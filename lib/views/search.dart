@@ -102,6 +102,9 @@ class _SearchState extends State<Search> {
     List<Map<String, String> > relatedProducts = await _productController.getRelated(product);
     setState(() {
       _selectedProduct = relatedProducts;
+      if(product['image'] != null){
+        _selectedProduct.insert(0, product);
+      }
       _loading = false;
     });
   }

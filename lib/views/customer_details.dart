@@ -26,6 +26,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
   TextEditingController _phoneTextController = new TextEditingController();
   TextEditingController _addressTextController = new TextEditingController();
   TextEditingController _landmarkTextController = new TextEditingController();
+  TextEditingController _pincodeTextController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Page(
@@ -132,7 +133,10 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         validator: (value){
                           if(value.isEmpty){
                             return "This field cannot be empty";
-                          }else{
+                          }else if(value.length < 15){
+                            return "This field must be 15 characters long";
+                          }
+                          else{
                             return null;
                           }
                         },
@@ -162,7 +166,45 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         validator: (value){
                           if(value.isEmpty){
                             return "This field cannot be empty";
-                          }else{
+                          }else if(value.length < 10){
+                            return "this field must be 10 characters long";
+                          }
+                          else{
+                            return null;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
+                child: Material(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: _utils.colors['textFieldBackground'].withOpacity(0.2),
+                  // elevation: _utils.elevation,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: TextFormField(
+                        controller: _pincodeTextController,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Pincode",
+                          icon: Icon(OMIcons.myLocation),
+                          // border: InputBorder.none
+                        ),
+                        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                            keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.multiline,
+                        validator: (value){
+                          if(value.isEmpty){
+                            return "This field cannot be empty";
+                          }else if(value.length != 6){
+                            return "this field must be 6 characters long";
+                          }
+                          else{
                             return null;
                           }
                         },
@@ -210,7 +252,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
         _loading = true;
       });
       // FirebaseUser _currentUser = await _userController.getCurrentUser();
-      Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => Payment(_fullNameTextController.text, _phoneTextController.text, _addressTextController.text, _landmarkTextController.text)));
+      Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => Payment(_fullNameTextController.text, _phoneTextController.text, _addressTextController.text, _landmarkTextController.text + " pincode: " + _pincodeTextController.text)));
     }
   }
 }
